@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=3 uid="uid://yn7g7w8o2usn"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_53qtj"]
+[ext_resource type="Texture2D" uid="uid://3vtwo84woxgg" path="res://Textures/knight.png" id="2_k4nsy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_haaw5"]
+size = Vector2(24, 19.5)
+
+[sub_resource type="Animation" id="Animation_mbk74"]
+resource_name = "left"
+
+[sub_resource type="Animation" id="Animation_lvaix"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_5kgyv"]
+resource_name = "run"
+length = 0.666
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j7617"]
+_data = {
+"RESET": SubResource("Animation_lvaix"),
+"left": SubResource("Animation_mbk74"),
+"run": SubResource("Animation_5kgyv")
+}
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 2
+floor_stop_on_slope = false
+script = ExtResource("1_53qtj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 4.75)
+shape = SubResource("RectangleShape2D_haaw5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_k4nsy")
+hframes = 2
+vframes = 3
+frame = 1
+
+[node name="Camera2D" type="Camera2D" parent="Sprite2D"]
+position_smoothing_enabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_j7617")
+}

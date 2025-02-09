@@ -1,0 +1,167 @@
+[gd_scene load_steps=14 format=3 uid="uid://yn7g7w8o2usn"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_53qtj"]
+[ext_resource type="Texture2D" uid="uid://lfdfloytdpxg" path="res://Textures/The Knight.png" id="2_2hp5p"]
+[ext_resource type="AudioStream" uid="uid://dbu6qgdetxko8" path="res://Textures/audio/king_land.wav" id="3_p4p3c"]
+[ext_resource type="AudioStream" uid="uid://cx673654l7bxn" path="res://Textures/audio/king_jump.wav" id="4_rn3ot"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_haaw5"]
+size = Vector2(24, 19.5)
+
+[sub_resource type="Animation" id="Animation_lvaix"]
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_5r054"]
+resource_name = "crouch"
+length = 0.333
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_ex55i"]
+resource_name = "fall"
+length = 0.333
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_8dym5"]
+resource_name = "idle"
+length = 0.25
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_22hxc"]
+resource_name = "jump"
+length = 0.33
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_5kgyv"]
+resource_name = "run"
+length = 0.666
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 2]
+}
+
+[sub_resource type="Animation" id="Animation_oba44"]
+resource_name = "splat"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [7, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j7617"]
+_data = {
+"RESET": SubResource("Animation_lvaix"),
+"crouch": SubResource("Animation_5r054"),
+"fall": SubResource("Animation_ex55i"),
+"idle": SubResource("Animation_8dym5"),
+"jump": SubResource("Animation_22hxc"),
+"run": SubResource("Animation_5kgyv"),
+"splat": SubResource("Animation_oba44")
+}
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 2
+floor_stop_on_slope = false
+script = ExtResource("1_53qtj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 4.75)
+shape = SubResource("RectangleShape2D_haaw5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2hp5p")
+hframes = 3
+vframes = 3
+frame = 1
+
+[node name="Camera2D" type="Camera2D" parent="Sprite2D"]
+position_smoothing_enabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_j7617")
+}
+
+[node name="land" type="AudioStreamPlayer" parent="Sprite2D"]
+stream = ExtResource("3_p4p3c")
+
+[node name="jump" type="AudioStreamPlayer" parent="Sprite2D"]
+stream = ExtResource("4_rn3ot")

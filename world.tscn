@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs2o48pcncioh"]
+
+[ext_resource type="PackedScene" uid="uid://cd1q1kmwnjysn" path="res://background.tscn" id="1_akkrr"]
+[ext_resource type="PackedScene" uid="uid://yn7g7w8o2usn" path="res://player.tscn" id="2_v8di2"]
+
+[node name="World" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource("1_akkrr")]
+position = Vector2(240, 180)
+
+[node name="campfire" parent="Background" index="0"]
+position = Vector2(149, 315)
+
+[node name="old_man" parent="Background" index="1"]
+position = Vector2(337, 316)
+
+[node name="player" parent="." instance=ExtResource("2_v8di2")]
+position = Vector2(213, 296)
+floor_constant_speed = true
+
+[editable path="Background"]
